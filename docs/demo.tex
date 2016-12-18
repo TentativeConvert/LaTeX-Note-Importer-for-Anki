@@ -1,0 +1,93 @@
+% -*- coding:utf-8 -*-
+% LATEX PREAMBLE --- needs to be imported manually
+\documentclass[12pt]{article}
+\special{papersize=3in,5in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{empty}
+\setlength{\parindent}{0in}
+\newcommand{\detail}[1]{{\scriptsize(#1)\par}~}
+\newcommand{\refs}[1]{{\scriptsize\textit{Refs: }#1\par}\hfill.}
+\newcommand*{\abs}[1]{\left\vert#1\right\vert}
+\newcommand*{\NN}{\mathbb{N}}
+\newcommand*{\ZZ}{\mathbb{Z}}
+\newcommand*{\QQ}{\mathbb{Q}}
+\newcommand*{\FF}{\mathbb{F}}
+\newcommand*{\PP}{\mathbb{P}}
+\newcommand*{\units}{\times}
+
+%%% commands that do not need to imported into Anki:
+\usepackage{mdframed}
+\newcommand*{\tags}[1]{\paragraph{tags: }#1\bigskip}
+\newcommand*{\xfield}[1]{\begin{mdframed}\centering #1\end{mdframed}\bigskip}
+\newenvironment{field}{}{}
+\newcommand*{\xplain}[1]{\begin{mdframed}\texttt{#1}\end{mdframed}\bigskip}
+\newenvironment{plain}{\ttfamily}{\par}
+\newenvironment{note}{}{}
+% END OF THE PREAMBLE
+\begin{document}
+\tags{number-theory}
+\begin{note}
+  \xfield{def: Euler \(\phi\)-function}
+  \begin{field}
+    \[
+      \phi(n) = \abs{(\ZZ/n)^\units}
+    \]
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xfield{express \(n\in\NN\) in terms of Euler's \(\phi\)-function}
+  \begin{field}
+    \[n=\sum_{d|n} \phi(d)\]
+    
+    \detail{Each element of \(\ZZ/n\) is a generator of one of the subgroups \(\ZZ/d\) with \(d|n\).}
+
+    \refs{Serre: A course in arithmetic, \S~I.1, Lemma~1}
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xfield{Chevalley-Warning-Theorem}
+  \begin{field}
+    Let \(\FF_q\) be a finite field (\(q\) a power of \(p\)).
+
+    The common vanishing locus of polynomials \(f_{\alpha} \in \FF_q[x_1,\dots,x_n]\) of sufficiently small degree has cardinality a multiple of \(p\).  Sufficiently small means that \(\sum_\alpha \deg(f_\alpha) < n\).\\
+
+    \refs{Serre: A course in arithmetic, \S~I.2, Theorem~3}
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xfield{prove: Every conic over a finite field has a rational point.}
+  \begin{field}
+    A conic in \(\PP^n_{\FF_q}\) is defined by a quadratic form \(f\) in \(n\) variables (\(n\geq 3\)). 
+    As \(\deg(f) = 2 < n\), the Chevalley-Warning-Theorem implies that \(f\) has more zeroes than just the trivial zero.\\
+
+    \refs{Serre: A course in arithmetic, \S~I.2, Corollary~2}
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xfield{squares in \(\FF_q\)  (\(q\) a power of \(p\))}
+  \begin{field}
+    If \(p\neq 2\), 
+    \begin{alignat*}{5}
+      1  \to  (\FF_q^\units)^2 \to 
+      &\FF_q^\units & \to & \{\pm 1\} \to 1 \\
+      & x          & \mapsto & x^{\frac{q-1}{2}}
+    \end{alignat*}
+    If \(p=2\), all elements of \(\FF_q\) are squares.\\
+
+    \refs{Serre: A course in arithmetic, \S~I.3, Theorem~4}
+  \end{field}
+\end{note}
+
+\tags{philosophy}
+\begin{note}
+  \xplain{What good is it to argue about whether HOLISM or REDUCTIONISM is right?}
+  \begin{plain}
+    The proper way to understand the matter is to transcend the question, by answering MU.
+  \end{plain}
+\end{note}
+\end{document}

@@ -1,0 +1,145 @@
+% -*- coding: utf-8-unix -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The first part of the header needs to be copied
+%       into the note options in Anki.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% layout in Anki:
+\documentclass[11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{paperwidth=.5\paperwidth,paperheight=100in,left=2em,right=2em,bottom=1em,top=2em}
+\pagestyle{empty}
+\setlength{\parindent}{0in}
+ 
+% hyphenation:
+\usepackage[ngerman]{babel}
+
+% encoding:
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+% packages:
+\usepackage{amsmath,amsfonts}  
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Following part of header NOT to be copied into
+%            the note options in Anki.
+%          ! Anki will throw an errow !
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  pdf layout:
+%
+\geometry{paperheight=74.25mm}
+\usepackage{pgfpages}
+\pagestyle{empty}
+\pgfpagesuselayout{8 on 1}[a4paper,border shrink=0cm]
+\makeatletter
+\@tempcnta=1\relax
+\loop\ifnum\@tempcnta<9\relax
+\pgf@pset{\the\@tempcnta}{bordercode}{\pgfusepath{stroke}}
+\advance\@tempcnta by 1\relax
+\repeat
+\makeatother
+% 
+%  notes, fields, tags:
+%
+\newcommand{\xfield}[1]{
+        #1\par
+        \vfill
+        {\tiny\texttt{\parbox[t]{\textwidth}{\localtag\\\globaltag\hfill\uuid}}}
+        \newpage}
+\newenvironment{field}{}{\newpage}
+\newif\ifnote
+\newenvironment{note}{\notetrue}{\notefalse}
+\newcommand{\localtag}{}
+\newcommand{\globaltag}{}
+\newcommand{\uuid}{}
+\newcommand{\tags}[1]{
+    \ifnote 
+        \renewcommand{\localtag}{#1}
+    \else
+        \renewcommand{\globaltag}{#1}
+    \fi 
+    }
+\newcommand{\xplain}[1]{\renewcommand{\uuid}{#1}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The following line again needs to be copied 
+% into Anki:
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tags{Topo-0-1-Grundbegriffe}
+
+\begin{note}
+  \xplain{214a670c-1416-4e53-9f8a-7e598f437f40}
+  \tags{Definition}
+  \xfield{Topologie auf einer Menge \(X\)}
+  \begin{field}
+    Eine Menge von Teilmengen von \(X\), die \(\emptyset\) und ganz \(X\) enthält, sowie das Vereinigungs- und das Schnittaxiom erfüllt.
+  \end{field}
+  \xfield{Topologie:  Vereinigungsaxiom}
+  \begin{field}
+    Beliebige Vereinigungen offener Mengen sind offen.
+  \end{field}
+  \xfield{Topologie:  Schnittaxiom}
+  \begin{field}  
+    \emph{Endliche} Schnitte offener Mengen sind offen.
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xplain{f13fb51e-4905-4a24-89dc-13d334e8cc92}
+  \tags{Definition}
+  \xfield{Abschluss einer Menge}
+  \begin{field}
+    Schnitt aller abgeschlossenen Übermengen.
+  \end{field}
+  \xfield{Inneres einer Menge}
+  \begin{field}
+    Vereinigung aller offener Teilmengen.
+  \end{field}
+  \xfield{Rand einer Menge}
+  \begin{field}
+    Abschluss ohne Inneres.
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xplain{ddb58e94-e730-4124-adc3-c838bab8996f}
+  \tags{Beispiel}
+  \xfield{Rand der abgeschlossenen Scheibe in \(\mathbb R^2\)}
+  \begin{field}
+    Der Kreis.
+  \end{field}
+  \xfield{Rand der offenen Scheibe in \(\mathbb R^2\)}
+  \begin{field}
+    Der Kreis.
+  \end{field}
+  \xfield{Rand der offenen Scheibe in sich selbst.}
+  \begin{field}
+    \(\emptyset\)
+  \end{field}
+\end{note}
+
+\tags{Topo-0-2-Zusammenhang}
+\begin{note}
+  \xplain{b1aca801-04c7-476f-8a11-15baef7741ee}
+  \tags{Beispiel}
+  \xfield{Eine Raum ist zusammenhängend, falls \dots}
+  \begin{field}
+    \dots er sich nicht als \emph{disjunkte} Vereinigung zweier offener, nicht-leerer, echter Teilmengen schreiben lässt.
+  \end{field}
+\end{note}
+
+\begin{note}
+  \xplain{5a7de3ec-5e7b-4d3d-8aaa-a3ff469956fd}
+  \tags{Definition}
+  \xfield{Eine Raum ist weg-zusammenhängend, falls \dots}
+  \begin{field}
+    \dots sich je zwei Punkte durch einen stetigen Weg verbinden lassen.
+  \end{field}
+\end{note}
+
+\end{document}
