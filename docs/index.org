@@ -1,5 +1,12 @@
 #+SETUPFILE: theme/theme.setup
 
+# Currently published in two places:
+# (a) on my homepage
+#     [run /docs/upload.sh, which exists only in my local copy]
+# (b) on a "GitHub page"
+#     [published page is automatically synchronized with docs directory on github]
+#
+
 #+AUTHOR: Marcus Zibrowius
 #+TITLE: LaTeX Note Importer for Anki
 
@@ -313,7 +320,8 @@
     This is due to a limitation of the core Anki importer: it does not update tags of existing notes unless these tags are imported as an additional field.
 
 ** Where can I find the code?
-    Once the add-on is installed, you can find the code in the folder =…/​Anki/​addons/​latexbiport=.
+The code is available on [[https://github.com/TentativeConvert/LaTeX-Note-Importer-for-Anki/][GitHub]]. 
+Once the add-on is installed, you can find the code in the folder =…/​Anki/​addons/​latexbiport=.  
 
 
 
