@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-12-18 So 16:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>LaTeX Note Importer for Anki</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Marcus Zibrowius" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="theme/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="theme/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="theme/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="theme/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">LaTeX Note Importer for Anki</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. Installation</a></li>
+<li><a href="#orgheadline7">2. Examples</a>
+<ul>
+<li><a href="#orgheadline2">2.1. Minimal example</a></li>
+<li><a href="#orgheadline3">2.2. Compilable example</a></li>
+<li><a href="#orgheadline6">2.3. More examples</a>
+<ul>
+<li><a href="#orgheadline4">2.3.1. A basic example</a></li>
+<li><a href="#orgheadline5">2.3.2. An example in which the pdf-output can be cut into paper cards</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline11">3. Syntax</a>
+<ul>
+<li><a href="#orgheadline8">3.1. Fields</a></li>
+<li><a href="#orgheadline9">3.2. Tags</a></li>
+<li><a href="#orgheadline10">3.3. Comments</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline17">4. Porting</a>
+<ul>
+<li><a href="#orgheadline15">4.1. Import</a>
+<ul>
+<li><a href="#orgheadline12">4.1.1. Preamble</a></li>
+<li><a href="#orgheadline13">4.1.2. Tags</a></li>
+<li><a href="#orgheadline14">4.1.3. Updating notes</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline16">4.2. Export</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline21">5. Maintaining a deck for a lecture course</a>
+<ul>
+<li><a href="#orgheadline18">5.1. Preparations</a></li>
+<li><a href="#orgheadline19">5.2. Weekly workflow</a></li>
+<li><a href="#orgheadline20">5.3. Sharing/publishing</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline25">6. FAQ</a>
+<ul>
+<li><a href="#orgheadline22">6.1. Why not keep the [latex]-commands in a card template?</a></li>
+<li><a href="#orgheadline23">6.2. Why has the mechanism for importing tags changed?</a></li>
+<li><a href="#orgheadline24">6.3. Where can I find the code?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<i>LaTeX Note Importer is an add-on for Anki, an open-source flash-card program developed and maintained by Damien Elmes. As the name says, the add-on provides functionality for importing notes from LaTeX files. This allows you to create Anki notes in your favourite editor or IDE. Of course, this is mainly useful for notes that contain a lot of LaTeX to begin with, for example mathematical notes.</i>
+</p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Installation<a id="orgtarget1"></a></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You will need the following prerequisites:
+</p>
+
+<ul class="org-ul">
+<li>LaTeX:  you need a local (La)TeX installation.</li>
+<li>Anki:  you need a <a href="http://ankisrs.net/#download">local installation of Anki</a>, and it needs to be 
+<a href="http://ankisrs.net/docs/manual.html#latex-support">set up to interact with your local TeX installation</a>.</li>
+</ul>
+<p>
+Assuming you have these, installing LaTeX Note Importer is easy.
+In Anki’s main window, choose <code>Tools</code> <code>&gt;</code> <code>Add-ons</code> <code>&gt;</code> <code>Browse &amp; Install...</code>, enter
+</p>
+<blockquote>
+<div class="org-center">
+<p>
+1199027445
+</p>
+</div>
+</blockquote>
+<p>
+and click <code>[OK]</code>. Then restart Anki.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">2</span> Examples</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Minimal example</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Let's have a look at a fairly minimal example file that LaTeX Note Importer can deal with:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">document</span>}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">note</span>}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Is it true that <span style="color: #8b4513;">\(1 + 1 = 0\)</span>?
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Yes and no. The equation
+       <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">equation*</span>}
+<span style="color: #8b4513;">            1+1 = 0</span>
+<span style="color: #8b4513;">       </span><span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">equation*</span>}
+       holds only in characteristic two.
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">document</span>}
+</pre>
+</div>
+<p>
+Importing this file into Anki will create a new note with two fields. The contents of each field will be enclosed in Anki's <code>[latex] ...[/latex]</code> commands. (If you do not think this is a good idea, see the <a href="#orgtarget2">FAQ below</a>.) For example, in Anki's built-in editor, the first field of the imported note will be displayed as follows:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-LaTeX">[latex]
+Is it true that <span style="color: #8b4513;">\(1 + 1 = 0\)</span>?
+[/latex]
+</pre>
+</div>
+<p>
+In order for the importer to work correctly, the tex-file needs to be saved in utf-8 encoding. This is the same prerequisite as required by Anki's built-in text importer. If you use emacs for text editing, you can force the file to be saved in utf-8 by adding <code>% -*- coding:utf-8 -*-</code> to the beginning of your file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">2.2</span> Compilable example</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Of course, we would also like our LaTeX file to be compilable! We should therefore add a line that informs the LaTeX compiler about the encoding we are using, and we should define the <code>note</code> and <code>field</code> environments. Here's a compilable version of the above example:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #b22222;">% </span><span style="color: #b22222;">-*- coding:utf-8 -*-</span>
+<span style="color: #a020f0;">\documentclass</span>[<span style="color: #a0522d;">12pt</span>]{<span style="color: #0000ff;">article</span>}
+<span style="color: #a020f0;">\usepackage</span>[<span style="color: #a0522d;">utf8</span>]{<span style="color: #0000ff;">inputenc</span>}
+<span style="color: #a020f0;">\newenvironment</span>{<span style="color: #0000ff;">note</span>}{<span style="color: #0000ff;">\paragraph</span><span style="color: #0000ff;">{</span><span style="color: #0000ff; font-weight: bold;">NOTE:</span><span style="color: #0000ff;">}</span>}{}
+<span style="color: #a020f0;">\newenvironment</span>{<span style="color: #0000ff;">field</span>}{<span style="color: #0000ff;">\paragraph</span><span style="color: #0000ff;">{</span><span style="color: #0000ff; font-weight: bold;">field:</span><span style="color: #0000ff;">}</span>}{}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">document</span>}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">note</span>}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Is it true that <span style="color: #8b4513;">\(1 + 1 = 0\)</span>?
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Yes and no. The equation
+       <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">equation*</span>}
+<span style="color: #8b4513;">                  1+1 = 0</span>
+<span style="color: #8b4513;">       </span><span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">equation*</span>}
+       holds only in characteristic two.
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">document</span>}
+</pre>
+</div>
+<p>
+There is no restriction on the number of notes you can include in a single LaTeX file, nor on the number of fields you can include in a note. Unlike Anki's built-in text importer, LaTeX Note Importer does not require each note to have the same number of fields. However, you should keep in mind that you will have to specify a single Anki note type when importing the file; notes should not have more fields than this note type provides. And, if you use tags, it’s best to have at least one note in your file that has exactly as many fields as the note type provides: see <a href="#orgtarget3">details on tag import</a>.
+</p>
+
+<p>
+On first reading, you’ll probably now want to skip down to the <a href="#orgtarget4">instructions for importing</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">2.3</span> More examples</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The following files are provided mainly for inspiration.
+</p>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">2.3.1</span> A basic example</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<div class="org-center">
+<p>
+<a href="demo.tex">demo.tex</a><br  />
+<a href="demo.pdf">demo.pdf</a>
+</p>
+</div>
+
+<p>
+You can import <code>demo.tex</code> into Anki as it is.  Note however that in order for the notes to compile in Anki, you still need to <a href="#orgtarget5">manually copy the LaTeX preamble into Anki</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">2.3.2</span> An example in which the pdf-output can be cut into paper cards</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="org-center">
+<p>
+<a href="TopoCards.tex">TopoCards.tex</a><br  />
+<a href="TopoCards.pdf">TopoCards.pdf</a><br  />
+<a href="TopoCards.apkg">TopoCards.apkg</a>
+</p>
+</div>
+
+<p>
+Again, you can import <code>TopoCards.tex</code> into Anki as it is, but you will need to <a href="#orgtarget5">import the preamble manually</a>. Alternatively, you can first import the example deck (*.apkg) into Anki: this will in particular create a note type compatible with the LaTeX file, i.e. with the correct number of fields, and with the correct LaTeX preamble.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11"><span class="section-number-2">3</span> Syntax<a id="orgtarget7"></a></h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">3.1</span> Fields</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Altogether, LaTeX Note Importer supports four different field types:
+</p>
+
+<ul class="org-ul">
+<li>LaTeX fields: <code>\begin{field} …some LaTeX… \end{field}</code><br  />
+The contents of these fields are surrounded by <code>[latex]…[/latex]</code> when imported. Moreover, the following special characters are replaced by their html-equivalents: <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>. (This is necessary. Anki will translate them back when sending them to the LaTeX compiler.)</li>
+
+<li>Short LaTeX fields: <code>\xfield{ …some LaTeX… }</code><br  />
+These fields work like the previous ones, except that no additional line breaks are inserted after <code>[latex]</code> and before <code>[/latex]</code>. The idea is to use this field type primarily for short, single-line LaTeX code, which will then remain single-line upon importing. For example, you could use this type of field for prompts/questions, and the usual field environment for answers.</li>
+
+<li>Plain text fields: <code>\begin{plain} …some text… \end{plain}</code><br  />
+As the name indicates, these fields can be used to import plain text &#x2013; the text will not be included in <code>[latex]…[/latex]</code>, nor will any other operations be performed on it.</li>
+
+<li>Short plain text fields: <code>\xplain{ …some text… }</code><br  />
+Like the previous one. For example, this field can be used for note IDs (see the section on <a href="#orgtarget6">updating notes</a>).</li>
+</ul>
+
+<p>
+Of course, you will need to define each field type that you use in the preamble of your file in order for the file to be compilable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">3.2</span> Tags</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+You can add tags to the notes in your LaTeX file using the command:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #696969;">\tags</span>{ tag1 tag2 &#8230; }
+</pre>
+</div>
+
+<p>
+Again, you will also need to add some definition of this command to the preamble in order for the file to be compilable, for example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #a020f0;">\newcommand*</span>{<span style="color: #0000ff;">\tags</span>}[<span style="color: #a0522d;">1</span>]{<span style="color: #0000ff;">\paragraph</span><span style="color: #0000ff;">{</span><span style="color: #0000ff; font-weight: bold;">tags: </span><span style="color: #0000ff;">}#1</span>}
+</pre>
+</div>
+
+<p>
+The scope of the tags <code>tag1</code>, <code>tag2</code> … depends on the relative position of the <code>\tags</code>-command:
+</p>
+
+<ul class="org-ul">
+<li><b>global tags:</b> If the command is placed in between notes, the tags <code>tag1</code>, <code>tag2</code>, … will be applied to all the following notes, until another <code>\tags</code>-command in between notes is encountered. These tags do not accumulate, i.e. a global tag command always overwrites all preceding global tag commands.</li>
+
+<li><b>local tags:</b> If the command is placed inside a note (but not inside a field), <code>tag1</code>, <code>tag2</code>, … will be applied to the current note only. These tags are applied in addition to the global tags, and they accumulate within a note.</li>
+</ul>
+
+<p>
+The behaviour is best illustrated with an example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #696969;">\tags</span>{g1 g2}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">note</span>}
+   <span style="color: #696969;">\tags</span>{l1}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Is it true that <span style="color: #8b4513;">\(1 + 1 = 0\)</span>?
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+   <span style="color: #b22222;">% This note has tags g1, g2, l1.</span>
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
+
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">note</span>}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Is it true that <span style="color: #8b4513;">\(1 + 1 = 1\)</span>?
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+   <span style="color: #b22222;">% This note has tags g1, g2.</span>
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
+
+<span style="color: #696969;">\tags</span>{g3}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">note</span>}
+   <span style="color: #696969;">\tags</span>{l2}
+   <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
+       Is it true that <span style="color: #8b4513;">\(1 + 1 = 2\)</span>?
+   <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
+   <span style="color: #696969;">\tags</span>{l3}
+   <span style="color: #b22222;">% This note has tags g3, l2, l3.</span>
+<span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">3.3</span> Comments</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+All text in between notes or in between fields is ignored by the importer. In particular, you can use this space for adding comments in your file. LaTeX comments within fields are also handled correctly as long as they are used within sane limits. Fragments of the form
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #a020f0;">\begin</span><span style="color: #b22222;">% some comment</span>
+{<span style="color: #0000ff;">field</span>}
+</pre>
+</div>
+<p>
+will definitely confuse the importer, even though they do not seem to confuse LaTeX compilers.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17"><span class="section-number-2">4</span> Porting<a id="orgtarget10"></a></h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">4.1</span> Import<a id="orgtarget4"></a></h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+You can import your LaTeX file using either the menu (<code>File</code> <code>&gt;</code> <code>Import...</code>) or the <code>[Import File]</code> button at the bottom of the main Anki window. A dialog window allows you to specify which deck to import the notes to, which note type to base them on, and how to map the imported fields onto the fields of that note type. (By default, the fields are kept in the order in which they appear in the LaTeX file.) Moreover, you can choose between the following three options:
+</p>
+<blockquote>
+<p>
+<code>Update existing notes when first field matches</code> <br  />
+<code>Ignore lines where first field matches existing note</code> <br  />
+<code>Import even if existing note has same first field</code>
+</p>
+</blockquote>
+
+<p>
+This import dialog is part of core Anki, so the wording is perhaps not perfectly adapted to LaTeX files—read "ignore notes" for "ignore lines".
+</p>
+</div>
+
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">4.1.1</span> Preamble<a id="orgtarget5"></a></h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+The preamble of the LaTeX file is not imported. You can configure the LaTeX preamble used by Anki by selecting (<code>Tools</code> <code>&gt;</code> <code>Manage Note Types...</code>) in the main menu, choosing the relevant note type and clicking on the <code>[Options]</code> button.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">4.1.2</span> Tags<a id="orgtarget3"></a></h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+In the current version of LaTeX Note Importer, tags are only imported correctly if the (maximum) number of fields per note in the LaTeX file matches the number of fields of the note type selected in the import dialog.
+</p>
+
+<p>
+For example, suppose our note type has just the two fields <code>Front</code> and <code>Back</code>, and accordingly each note in our LaTeX file also has two fields. If any of these notes has a tag, then the import dialog will show up with three fields. It will look something like this:
+</p>
+<blockquote>
+<p>
+Field 1 of file is: mapped to <code>Front</code><br  />
+Field 2 of file is: mapped to <code>Back</code><br  />
+Field 3 of file is: mapped to <code>Tags</code>
+</p>
+</blockquote>
+
+<p>
+This is what we want! The mysterious <code>Field 3</code> contains the tags that we specified with the <code>\tags</code>-command in our LaTeX file, and if we do not change the default association of <code>Field 3</code> with <code>Tags</code>, then these tags will be imported correctly.
+</p>
+
+<p>
+I won't attempt to defend the shortcomings of this user interface, but I'll include the following ascii art purely for its aesthetic value:
+</p>
+
+<pre class="example">
+          +------------+                        +--------+
+LaTeX   --+ LaTeX Note +---&gt;      list of    ---+ IMPORT +--&gt;     Anki
+file    --+  Importer  +---&gt;   field values  ---+ DIALOG +--&gt;   database
+          +------------+                        +--------+
+</pre>
+
+<p>
+Back to our example. What happens if our note type has more fields than occur in the notes in our LaTeX file? Suppose, for instance, that our note type has a third field <code>Hints</code>, but we are using the same LaTeX file as before. Then the import dialog will instead display as:
+</p>
+<blockquote>
+<p>
+Field 1 of file is: mapped to <code>Front</code><br  />
+Field 2 of file is: mapped to <code>Back</code><br  />
+Field 3 of file is: mapped to <code>Hints</code>
+</p>
+</blockquote>
+<p>
+The tags we specified in the LaTeX file are again displayed as a mysterious <code>Field 3</code>, but now they will be imported as <code>Hints</code> instead of tags! We can easily correct this insane default behaviour, however, by clicking on the <code>Change</code> button next to <code>Hints</code> in the dialog and selecting <code>Tags</code> instead.
+</p>
+
+<p>
+Finally, if at least one of the notes in our LaTeX file does contain a third field, everything is automatically fine again. The dialog comes up with an additional <code>Field 4</code>, and this field is correctly mapped to <code>Tags</code>:
+</p>
+<blockquote>
+<p>
+Field 1 of file is: mapped to <code>Front</code><br  />
+Field 2 of file is: mapped to <code>Back</code><br  />
+Field 3 of file is: mapped to <code>Hints</code><br  />
+Field 4 of file is: mapped to <code>Tags</code>
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">4.1.3</span> Updating notes<a id="orgtarget6"></a></h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+Suppose you have imported some notes and started learning with them.  Suppose that, after a while, you notice some mistakes or inconsistencies that you would like to correct.  Is it possible to make these corrections in your original LaTeX file and reimport it without losing all of Anki’s scheduling information for this deck? 
+</p>
+
+<p>
+The answer is YES, you can.  As long as you don’t edit the first field of each note, you can update them in Anki by editing them in your LaTeX file and choosing the option
+</p>
+<blockquote>
+<p>
+<code>Update existing notes when first field matches</code>
+</p>
+</blockquote>
+<p>
+when you import.
+</p>
+
+<p>
+So, what if you also want to edit the first field?  The trick is to plan ahead and reserve the first field of each note for a unique ID that will never change. The <code>\xplain-fields</code> are provided with exactly this purpose in mind.  For more details, see the <a href="#orgtarget8">step-by-step guide on how to maintain a deck for a lecture course</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16"><span class="section-number-3">4.2</span> Export<a id="orgtarget9"></a></h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+To export a deck into a tex file, go to <code>File</code> <code>&gt;</code> <code>Export...</code> in the main menu and select <code>[Notes in LaTeX (*.tex)]</code> as export format. 
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline21" class="outline-2">
+<h2 id="orgheadline21"><span class="section-number-2">5</span> Maintaining a deck for a lecture course<a id="orgtarget8"></a></h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The following is a step-by-step guide explaining how to create and maintain an Anki deck for a maths lecture course as you go along.  The idea is to create and import cards each week as the course progresses, but in such a way that you can still go back and make changes later on. 
+</p>
+</div>
+
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">5.1</span> Preparations</h3>
+<div class="outline-text-3" id="text-5-1">
+<ol class="org-ol">
+<li>If you haven’t already done so, follow the <a href="#orgtarget1">installation instructions</a> above.</li>
+<li>Download the example file  <a href="TopoCards.tex">TopoCards.tex</a>. You will create and maintain all notes in this single file.</li>
+
+<li>Adapt the LaTeX preamble of the file to your needs.  Try as much as possible to include all packages and macros that you will need for this particular course.  Every time you change the preamble later, you will also have to repeat Step 5 below.</li>
+
+<li>Download the example deck <a href="TopoCards.apkg">TopoCards.apkg</a> and import it into Anki (<code>File</code> <code>&gt;</code> <code>Import...</code>).  This will create a deck called <code>Maths::TopoCards</code> and a note type called <code>TopoNote</code>.  You can rename and edit the note type under <code>Tools</code> <code>&gt;</code> <code>Manage Note Types…</code>.  Be sure to keep the first field for the ID.</li>
+
+<li><p>
+If you changed the LaTeX preamble in Step 2, then copy the preamble of your LaTeX file to Anki:  <code>Tools</code> <code>&gt;</code> <code>Manage Note Types</code> <code>&gt;</code> <code>[TopoNote]</code> <code>&gt;</code> <code>Options…</code> . 
+</p>
+
+<p>
+(In the case of our example file <code>TopoCards.tex</code>, only a part of the preamble is included in the settings of <code>TopoNote</code>. This is because <code>TopoCards.tex</code> uses some raw tex commands to produce its pdf output, and these commands throw errors in Anki.)
+</p></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19"><span class="section-number-3">5.2</span> Weekly workflow</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+<a href="#orgtarget7">For the general syntax to use in the LaTeX file, see above</a>.  Here, we just explain the weekly workflow.
+</p>
+
+<ol class="org-ol">
+<li><p>
+After the last note in the file, insert 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #696969;">\tags</span>{LectureN}
+</pre>
+</div>
+<p>
+or a similar line, where <code>N</code> is the number of the current lecture.  This will tag each of the following cards with the tag “LectureN”.  Don’t put a whitespace between <code>Lecture</code> and <code>N</code>, as this will create two separate tags!  
+(<a href="http://ankisrs.net/docs/manual.html#using-decks-appropriately">Using tags for sorting cards into lectures is better than using (sub)decks.</a>)
+</p></li>
+
+<li><p>
+Write the notes for this week/lecture below that line.
+Each note should begin with a field containing a unique ID.  For example, you can just number your notes consecutively as you type them, or use a UUID generator.  This will allow notes to be updated on successive imports.
+The Anki note template provided with the example deck accepts at most 8 further fields (4 prompts and 4 answers).  Don’t put more fields into a single note.
+</p>
+
+<p>
+If you haven’t messed up, it should be possible to process the file with <code>pdflatex</code>.  So you can check your notes before importing them into Anki. 
+</p></li>
+
+<li><p>
+Import the LaTeX file into Anki (<code>File</code> <code>&gt;</code> <code>Import…</code>).
+In the import dialog, choose
+</p>
+<blockquote>
+<p>
+<code>Update existing notes if first line matches.</code>
+</p>
+</blockquote>
+<p>
+and, if you used tags in the file as recommended, make sure the last field is mapped to <code>Tags</code>.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">5.3</span> Sharing/publishing</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Export your deck as an  <code>*.apgk-file</code> via <code>Gear icon next to deck</code> <code>&gt;</code> <code>Export</code>.
+In the export dialog, choose the following settings:
+</p>
+
+<blockquote>
+<p>
+<code>Export format: Anki Deck Package</code><br  />
+<del><code>Include scheduling information</code></del><br  />
+<code>Include media</code>
+</p>
+</blockquote>
+
+
+<p>
+You can share the <code>*.apkg-file</code> file with friends or publish it on the web. 
+</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgheadline25" class="outline-2">
+<h2 id="orgheadline25"><span class="section-number-2">6</span> FAQ</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+You can contact me using any of the means listed on my <a href="http://reh.math.uni-duesseldorf.de/~zibrowius/">homepage</a>.  Here, I just answer some of the most likely questions.
+</p>
+</div>
+
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">6.1</span> <a id="orgtarget2"></a>Why not keep the [latex]-commands in a card template?</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Why does the importer encapsulate all fields with [latex] … [/latex]? Wouldn't it be more sensible to import fields as they are and instead insert the [latex]-commands into our card template?
+</p>
+
+<p>
+Although this does work sometimes, <a href="http://ankisrs.net/docs/manual.html#media-&amp;-latex-references">the Anki manual explicitly discourages this approach</a>:
+</p>
+<blockquote>
+<p>
+Media references to fields are not allowed. They may or may not display during review, and will not work when checking for unused media, importing/exporting, and so on. Examples that won't work:
+</p>
+
+<pre class="example">
+[…] 
+
+[latex]{{Field 1}}[/latex] 
+</pre>
+
+<p>
+Instead, you should include the media references in the field. 
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23"><span class="section-number-3">6.2</span> Why has the mechanism for importing tags changed?</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+With previous versions of LaTeX Note Importer, it was impossible to update the tags of existing notes. 
+This is due to a limitation of the core Anki importer: it does not update tags of existing notes unless these tags are imported as an additional field.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24"><span class="section-number-3">6.3</span> Where can I find the code?</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+The code is available on <a href="https://github.com/TentativeConvert/LaTeX-Note-Importer-for-Anki/">GitHub</a>. 
+Once the add-on is installed, you can find the code in the folder <code>…/​Anki/​addons/​latexbiport</code>.  
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Marcus Zibrowius</p>
+<p class="date">Created: 2016-12-18 So 16:20</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
