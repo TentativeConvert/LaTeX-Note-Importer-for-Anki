@@ -13,11 +13,13 @@ from aqt.qt import *
 from aqt.importing import ImportDialog
 from anki.hooks import wrap
 
+
 # GUI:
 def hideAllowHTML(self):
     if type(self.importer) == LatexImporter:
         self.frm.allowHTML.setShown(False)
 ImportDialog.setupMappingFrame = wrap(ImportDialog.setupMappingFrame, hideAllowHTML)
+
 
 # MEAT:
 class LatexImporter(NoteImporter):
@@ -31,8 +33,8 @@ class LatexImporter(NoteImporter):
         # excerpt from TextImporter (csvfile.py)
         NoteImporter.__init__(self, *args)
         self.fileobj = None
-        # preamble and postamble are saved in the following variables, 
-        # but they are not actually processed by the current version 
+        # preamble and postamble are saved in the following variables,
+        # but they are not actually processed by the current version
         # of LatexImporter:
         self.preamble = ""
         self.postamble = ""
@@ -40,28 +42,28 @@ class LatexImporter(NoteImporter):
         self.noteList = []
         # the log will be built from a list of warnings and a list
         # of text passages that have been ignored
-        self.log = [] 
+        self.log = []
         self.rubbishList = []
         self.warningList = []
     
-    def fields(self): 
-        # exact copy from TextImporter (csvfile.py)        
+    def fields(self):
+        # exact copy from TextImporter (csvfile.py)
         "Number of fields."
         self.open()
         return self.numFields
     
-    def open(self): 
+    def open(self):
         # exact copy from TextImporter (csvfile.py)
         "Parse the top line and determine the pattern and number of fields."
         self.cacheFile()
-        
-    def cacheFile(self): 
+
+    def cacheFile(self):
         # exact copy from TextImporter (csvfile.py)
         "Read file into self.lines if not already there."
         if not self.fileobj:
             self.openFile()
     
-    def openFile(self): 
+    def openFile(self):
         # modified from TextImporter (csvfile.py)
         self.dialect = None
         self.fileobj = open(self.file, "rbU")
@@ -71,7 +73,6 @@ class LatexImporter(NoteImporter):
         # modified from TextImporter (csvfile.py)
         return self.noteList
 
-
     def textToHtml(self, text):
         "Replace line breaks, <, > and & by HTML equivalents"
         htmldict = [[r"&", r"&amp;"],
@@ -79,12 +80,13 @@ class LatexImporter(NoteImporter):
                     [r">", r"&gt;"]]
         for v in htmldict:
             text = text.replace(v[0], v[1])
-        #order of replacements matters -- line breaks need to be replaced last!
+        # order of replacements matters --
+        # line breaks need to be replaced last!
         text = text.replace("\n", r"<br>")
         return text
 
     def ignore(self, value, ignored):
-        if re.search("\S",value) != None:
+        if re.search("\S", value) != None:
             ignored.append(value.strip())
 
     # parsing functions for different parts of the latex document
@@ -103,35 +105,35 @@ class LatexImporter(NoteImporter):
     def process_tags(self, value, note):
         note.tags.extend(value.split())
 
-    #Klammer-zu-suche:
+    # Klammer-zu-suche:
     def findClosingBrace(self, string):
         "return position of } matching invisible { at beginning of string"
-        l = 1 #parenthization level
-        p = 0 
+        l = 1  # parenthization level
+        p = 0
         while p < len(string) and l > 0:
             if string[p] == "\\":
-                p += 1 #skip a character
+                p += 1  # skip a character
             elif string[p] == "{":
                 l += 1
             elif string[p] == "}":
                 l -= 1
             elif string[p] == "%":
-                jump = string[p:].find("\n") #jump to end of line
+                jump = string[p:].find("\n")  # jump to end of line
                 if jump == -1: break
                 else: p += jump
-            p += 1 #loop
-        if l == 0:   #matching "}" found
-            return (p-1,p)
+            p += 1  # loop
+        if l == 0:  # matching "}" found
+            return (p-1, p)
         else:
             self.warningList.append("\nWARNING: } expected at the end of the following string.\n")
             self.warningList.append(string + "\n")
             return None
 
-    def findCommand(self, string, command, arg = None, warning = False):
+    def findCommand(self, string, command, arg=None, warning=False):
         if arg == None:
             pattern = ur"\\" + command + ur"(?![a-z])"
         elif arg == "?":
-            pattern = ur"\\" + command + ur"\s*{" 
+            pattern = ur"\\" + command + ur"\s*{"
         else:
             pattern = ur"\\" + command + ur"\s*{" + arg + ur"}"
         p = 0
@@ -140,29 +142,30 @@ class LatexImporter(NoteImporter):
             mo = re.match(pattern, string[p:])
             if mo: break
             if string[p] == "\\":
-                p += 1 #skip a character
+                p += 1  # skip a character
             elif string[p] == "%":
-                jump = string[p:].find("\n") #jump to end of line
+                jump = string[p:].find("\n")  # jump to end of line
                 if jump == -1: break
                 else: p += jump
-            p += 1 #loop
+            p += 1  # loop
         if mo:
             return (p + mo.start(), p + mo.end())
         else:
             if warning == True:
                 self.warningList.append("\nWARNING: The environment containing the following string seems to be corrupted.\n")
                 self.warningList.append(string + "\n")
-            return None       
+            return None
 
-    def findIter(self, string, findfun): #command, arg = None):
+    def findIter(self, string, findfun):
         poslist = []
-        pos = (0,0)
+        pos = (0, 0)
         while True:
-            adpos = findfun(string[pos[1]:]) #findCommand(string[pos[1]:], command, arg)
+            adpos = findfun(string[pos[1]:])
             if adpos == None:
                 break
             if adpos[1] == adpos[0]:
-                #This really shouldn't happen, I just want to make sure I don't land in an infinite loop
+                # This really shouldn't happen, I just want to make sure
+                # I don't land in an infinite loop
                 self.warningList.append("\nERROR: An error occurred while parsing the following string. Import may have failed.\n")
                 self.warningList.append(string + "\n")
                 break
@@ -171,10 +174,11 @@ class LatexImporter(NoteImporter):
         return poslist
 
     def cutIntoPieces(self, string, cList):
-        "returns a list of the strings before and in between all sections marked by the commands in cList, and a list of all sections"
-        triples = [(ao[0],ao[1],cList.index(command))
-                 for command in cList 
-                 for ao in self.findIter(string, command['beginfun'])]
+        """returns a list of the strings before and in between all sections
+        marked by the commands in cList, and a list of all sections"""
+        triples = [(ao[0], ao[1], cList.index(command))
+                   for command in cList
+                   for ao in self.findIter(string, command['beginfun'])]
         triples.sort()
         Begins = [p[0] for p in triples] + [len(string)]
         intBegins = [p[1] for p in triples]
@@ -188,7 +192,7 @@ class LatexImporter(NoteImporter):
             intString = string[intBegins[i]:Begins[i+1]]
             ends = cList[ci]['endfun'](intString)
             if ends == None:
-                valueString = intString 
+                valueString = intString
                 prevEnd = Begins[i+1]
             else:
                 valueString = intString[:ends[0]]
@@ -199,11 +203,12 @@ class LatexImporter(NoteImporter):
 
     def processFile(self, fileString):
         docCommands = [{'beginfun': lambda string: self.findCommand(string, ur"begin", ur"document"),
-                         'endfun': lambda string: self.findCommand(string, ur"end", ur"document", warning = True),
-                         'process': lambda string: self.processDocument(string)}]
-        pieces, post = self.cutIntoPieces(fileString, docCommands) 
-        #  may return several documents if file was written like that, 
-        #  but I'll ignore all except the first, just like any latex interpreter would
+                        'endfun': lambda string: self.findCommand(string, ur"end", ur"document", warning=True),
+                        'process': lambda string: self.processDocument(string)}]y
+        pieces, post = self.cutIntoPieces(fileString, docCommands)
+        # may return several documents if file was written like that,
+        # but I'll ignore all except the first,
+        # just like any latex interpreter would
         self.preamble, document, ci = pieces[0]
         self.preamble = self.preamble + u"\\begin{document}"
         self.postamble = u"\\end{document}" + post
@@ -211,20 +216,22 @@ class LatexImporter(NoteImporter):
         # make all notes same length and
         # add tags as extra field at the very end
         # (Adding tags as field is necessary for tags to be "update-able":
-        #  when updating a note via import, the core ANKI importer does not check 
-        #  whether tags have changed unless they are imported as an additional field.)
-        self.numFields = max([len(note.fields) for note in self.noteList]) + 1 # +1 for tag-field
+        #  when updating a note via import, the core ANKI importer
+        #  does not check whether tags have changed unless they are
+        #  imported as an additional field.)
+        self.numFields = max([len(note.fields) for note in self.noteList]) + 1
+        # (+1 for tag-field)
         for note in self.noteList:
             note.fields = note.fields + [""]*(self.numFields-1-len(note.fields)) + [" ".join(note.tags)]
             note.tags = []
         # clean up rubbishList:
-        self.rubbishList = [s.strip() for s in self.rubbishList if re.search("\S",s) != None]
+        self.rubbishList = [s.strip() for s in self.rubbishList if re.search("\S", s) != None]
         self.log = self.warningList + ["\nTHE FOLLOWING TEXT HAS BEEN IGNORED because it occurred in between notes or in between fields:\n"] + self.rubbishList + ["\n"]
         
     def processDocument(self, document):
         globalTags = []
         noteCommands = [{'beginfun': lambda string: self.findCommand(string, ur"begin", ur"note"),
-                         'endfun': lambda string: self.findCommand(string, ur"end", ur"note", warning = True),
+                         'endfun': lambda string: self.findCommand(string, ur"end", ur"note", warning=True),
                          'process': lambda string: self.processNote(string, globalTags)}]
         pieces, post = self.cutIntoPieces(document, noteCommands)
         for pre, value, ci in pieces:
@@ -238,7 +245,7 @@ class LatexImporter(NoteImporter):
                           'endfun': lambda string: self.findCommand(string, ur"endfield"),
                           'process': lambda string: self.processLatexField(string, newNote)},
                          {'beginfun': lambda string: self.findCommand(string, ur"begin", ur"field"),
-                          'endfun': lambda string: self.findCommand(string, ur"end", ur"field", warning = True),
+                          'endfun': lambda string: self.findCommand(string, ur"end", ur"field", warning=True),
                           'process': lambda string: self.processLatexField(string, newNote)},
                          {'beginfun': lambda string: self.findCommand(string, ur"xfield", ur"?"),
                           'endfun': self.findClosingBrace,
@@ -247,7 +254,7 @@ class LatexImporter(NoteImporter):
                           'endfun': lambda string: self.findCommand(string, ur"endplain"),
                           'process': lambda string: self.processPlainField(string, newNote)},
                          {'beginfun': lambda string: self.findCommand(string, ur"begin", ur"plain"),
-                          'endfun': lambda string: self.findCommand(string, ur"end", ur"plain", warning = True),
+                          'endfun': lambda string: self.findCommand(string, ur"end", ur"plain", warning=True),
                           'process': lambda string: self.processPlainField(string, newNote)},
                          {'beginfun': lambda string: self.findCommand(string, ur"xplain", ur"?"),
                           'endfun': self.findClosingBrace,
@@ -260,13 +267,13 @@ class LatexImporter(NoteImporter):
         for pre, value, ci in pieces:
             self.rubbishList.append(pre)
             fieldCommands[ci]['process'](value)
-        self.rubbishList.append(post)        
+        self.rubbishList.append(post)
         self.noteList.append(newNote)
 
     def processInterNoteText(self, string, globalTags):
         tagCommands = [{'beginfun': lambda string: self.findCommand(string, ur"tags", "?"),
-                         'endfun': self.findClosingBrace,
-                         'process': None}
+                        'endfun': self.findClosingBrace,
+                        'process': None}
                        ]
         pieces, post = self.cutIntoPieces(string, tagCommands)
         self.rubbishList.extend([pre for pre, value, ci in pieces] + [post])
@@ -282,14 +289,16 @@ class LatexImporter(NoteImporter):
  
     def processLatexField(self, string, note):
         if string.strip() != "":
-        #   string = re.sub(r"^[ \t]*","",string,flags = re.MULTILINE)  # see note below
+            # string = re.sub(r"^[ \t]*", "", string, flags=re.MULTILINE)
+            # see note below
             string = self.textToHtml(string)
             string = r"[latex]" + string + r"[/latex]"
         note.fields.append(string)
         
     def processPlainField(self, string, note):
         string = string.strip()
-        string = re.sub(r"^[ \t]*","",string,flags = re.MULTILINE) # see note below
+        string = re.sub(r"^[ \t]*", "", string, flags=re.MULTILINE)
+        # see note below
         string = self.textToHtml(string)
         note.fields.append(string)
 
@@ -298,7 +307,8 @@ importing.Importers = importing.Importers + ((_("Latex Notes (*.tex)"), LatexImp
 # note:
 # The command
 #     string = re.sub(r"^[ \t]*","",string,flags = re.MULTILINE)
-# removes all whitespace at the beginning of each line of the (possibly-multiline) string.
-# However, I no longer understand why I should do this.
-# In the normal Anki editor, such leading whitespace does not show up in any case.
-# When importing verbatim-environments, deleting whitespace causes problems.
+# removes all whitespace at the beginning of each line of the
+# (possibly-multiline) string.  However, I no longer understand
+# why I should do this.  In the normal Anki editor, such leading
+# whitespace does not show up in any case.  When importing
+# verbatim-environments, deleting whitespace causes problems.
