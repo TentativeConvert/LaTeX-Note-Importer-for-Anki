@@ -12,6 +12,10 @@
 
     /LaTeX Note Importer is an add-on for Anki, an open-source flash-card program developed and maintained by Damien Elmes. As the name says, the add-on provides functionality for importing notes from LaTeX files. This allows you to create Anki notes in your favourite editor or IDE. Of course, this is mainly useful for notes that contain a lot of LaTeX to begin with, for example mathematical notes./
 
+
+    /The step-by-step guide below should contain all the information you need to get started.  A concise two-part advertisement and tutorial of Anki in general and this add-on in particular with lots of screenshots has been published by Finn Christiansen, see/ [[https://finnchristiansen.com/latex/anki-workflow-and-latex-template-i/][here]] /and/ [[https://finnchristiansen.com/latex/anki-workflow-and-latex-template-ii/][here]]. 
+
+
 * Installation<<install>>
   You will need the following prerequisites:
 
@@ -297,14 +301,14 @@
  
   
 
-* FAQ 
-  You can contact me using any of the means listed on my [[http://reh.math.uni-duesseldorf.de/~zibrowius/][homepage]].  Here, I just answer some of the most likely questions.
+* Contact + FAQ 
+You can contact me either via GitHub, by sending an email to marcus DOT zibrowius AT cantab DOT net, or via any of the means listed on my [[http://reh.math.uni-duesseldorf.de/~zibrowius/][homepage]].  Some of the most likely questions are addressed below.
 
-** <<latex-in-template>>Why not keep the [latex]-commands in a card template?
+** Why not keep the [latex]-commands in a card template?<<latex-in-template>>
 
-  Why does the importer encapsulate all fields with [latex] … [/latex]? Wouldn't it be more sensible to import fields as they are and instead insert the [latex]-commands into our card template?
+Why does the importer encapsulate all fields with [latex] … [/latex]? Wouldn't it be more sensible to import fields as they are and instead insert the [latex]-commands into our card template?
 
-  Although this does work sometimes, [[http://ankisrs.net/docs/manual.html#media-&-latex-references][the Anki manual explicitly discourages this approach]]:
+Although this does work sometimes, [[http://ankisrs.net/docs/manual.html#media-&-latex-references][the Anki manual explicitly discourages this approach]]:
   #+BEGIN_QUOTE
   Media references to fields are not allowed. They may or may not display during review, and will not work when checking for unused media, importing/exporting, and so on. Examples that won't work:
   
@@ -316,13 +320,12 @@
   #+END_QUOTE
   
 ** Why has the mechanism for importing tags changed?
-    With previous versions of LaTeX Note Importer, it was impossible to update the tags of existing notes. 
-    This is due to a limitation of the core Anki importer: it does not update tags of existing notes unless these tags are imported as an additional field.
+With previous versions of LaTeX Note Importer, it was impossible to update the tags of existing notes. 
+This is due to a limitation of the core Anki importer: it does not update tags of existing notes unless these tags are imported as an additional field.
 
 ** Where can I find the code?
 The code is available on [[https://github.com/TentativeConvert/LaTeX-Note-Importer-for-Anki/][GitHub]]. 
 Once the add-on is installed, you can find the code in the folder =…/​Anki/​addons/​latexbiport=.  
-
 
 
     
