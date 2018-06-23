@@ -204,7 +204,7 @@ class LatexImporter(NoteImporter):
     def processFile(self, fileString):
         docCommands = [{'beginfun': lambda string: self.findCommand(string, ur"begin", ur"document"),
                         'endfun': lambda string: self.findCommand(string, ur"end", ur"document", warning=True),
-                        'process': lambda string: self.processDocument(string)}]y
+                        'process': lambda string: self.processDocument(string)}]
         pieces, post = self.cutIntoPieces(fileString, docCommands)
         # may return several documents if file was written like that,
         # but I'll ignore all except the first,
