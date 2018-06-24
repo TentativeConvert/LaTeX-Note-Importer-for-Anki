@@ -224,7 +224,7 @@ class LatexImporter(NoteImporter):
         for note in self.noteList:
             note.fields = note.fields + [""]*(self.numFields-1-len(note.fields)) + [" ".join(note.tags)]
             note.tags = []
-        # clean up rubbishList & give provide feedback
+        # clean up rubbishList & provide feedback
         self.rubbishList = [s.strip() for s in self.rubbishList if re.search("\S", s) != None]
         self.log = self.warningList
         if len(self.rubbishList) > 0:
