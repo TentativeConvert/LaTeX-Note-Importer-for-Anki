@@ -46,7 +46,7 @@ class LatexImporter(NoteImporter):
         self.rubbishList = []
         self.warningList = []
     
-    def fields(self):
+2    def fields(self):
         # exact copy from TextImporter (csvfile.py)
         "Number of fields."
         self.open()
@@ -224,9 +224,11 @@ class LatexImporter(NoteImporter):
         for note in self.noteList:
             note.fields = note.fields + [""]*(self.numFields-1-len(note.fields)) + [" ".join(note.tags)]
             note.tags = []
-        # clean up rubbishList:
+        # clean up rubbishList & give provide feedback
         self.rubbishList = [s.strip() for s in self.rubbishList if re.search("\S", s) != None]
-        self.log = self.warningList + ["\nTHE FOLLOWING TEXT HAS BEEN IGNORED because it occurred in between notes or in between fields:\n"] + self.rubbishList + ["\n"]
+        self.log = self.warningList
+        if len(self.rubbishList) > 0:
+                self.log = self.log + [str(len(self.rubbishList)) + " lines have been ignored – they occurred in between notes or in between fields.\n"]
         
     def processDocument(self, document):
         globalTags = []
