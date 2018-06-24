@@ -228,7 +228,7 @@ class LatexImporter(NoteImporter):
         self.rubbishList = [s.strip() for s in self.rubbishList if re.search("\S", s) != None]
         self.log = self.warningList
         if len(self.rubbishList) > 0:
-                self.log = self.log + [str(len(self.rubbishList)) + " lines have been ignored – they occurred in between notes or in between fields.\n"]
+                self.log = self.log + [str(len(self.rubbishList)) + " lines have been ignored -- they occurred in between notes or in between fields.\n"]
         
     def processDocument(self, document):
         globalTags = []
