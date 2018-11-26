@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-03-23 Fr 21:29 -->
+<!-- 2018-11-26 Mon 17:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>LaTeX Note Importer for Anki</title>
@@ -246,7 +246,7 @@ and click <code>[OK]</code>. Then restart Anki.
 <h2 id="orgheadline7"><span class="section-number-2">2</span> Examples</h2>
 <div class="outline-text-2" id="text-2">
 </div><div id="outline-container-orgheadline2" class="outline-3">
-<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Minimal example</h3>
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Minimal example<a id="orgtarget3"></a></h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Let's have a look at a fairly minimal example file that LaTeX Note Importer can deal with:
@@ -260,9 +260,9 @@ Let's have a look at a fairly minimal example file that LaTeX Note Importer can 
    <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
    <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
        Yes and no. The equation
-       <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">equation*</span>}
+       <span style="color: #8b4513;">\[</span>
 <span style="color: #8b4513;">            1+1 = 0</span>
-<span style="color: #8b4513;">       </span><span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">equation*</span>}
+<span style="color: #8b4513;">       \]</span>
        holds only in characteristic two.
    <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
 <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
@@ -307,9 +307,9 @@ Of course, we would also like our LaTeX file to be compilable! We should therefo
    <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
    <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">field</span>}
        Yes and no. The equation
-       <span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">equation*</span>}
+       <span style="color: #8b4513;">\[</span>
 <span style="color: #8b4513;">                  1+1 = 0</span>
-<span style="color: #8b4513;">       </span><span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">equation*</span>}
+<span style="color: #8b4513;">       \]</span>
        holds only in characteristic two.
    <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">field</span>}
 <span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">note</span>}
@@ -317,11 +317,11 @@ Of course, we would also like our LaTeX file to be compilable! We should therefo
 </pre>
 </div>
 <p>
-There is no restriction on the number of notes you can include in a single LaTeX file, nor on the number of fields you can include in a note. Unlike Anki's built-in text importer, LaTeX Note Importer does not require each note to have the same number of fields. However, you should keep in mind that you will have to specify a single Anki note type when importing the file; notes should not have more fields than this note type provides. And, if you use tags, it’s best to have at least one note in your file that has exactly as many fields as the note type provides: see <a href="#orgtarget3">details on tag import</a>.
+There is no restriction on the number of notes you can include in a single LaTeX file, nor on the number of fields you can include in a note. Unlike Anki's built-in text importer, LaTeX Note Importer does not require each note to have the same number of fields. However, you should keep in mind that you will have to specify a single Anki note type when importing the file; notes should not have more fields than this note type provides. And, if you use tags, it’s best to have at least one note in your file that has exactly as many fields as the note type provides: see <a href="#orgtarget4">details on tag import</a>.
 </p>
 
 <p>
-On first reading, you’ll probably now want to skip down to the <a href="#orgtarget4">instructions for importing</a>.
+On first reading, you’ll probably now want to skip down to the <a href="#orgtarget5">instructions for importing</a>.
 </p>
 </div>
 </div>
@@ -345,7 +345,7 @@ The following files are provided mainly for inspiration.
 </div>
 
 <p>
-You can import <code>demo.tex</code> into Anki as it is.  Note however that in order for the notes to compile in Anki, you still need to <a href="#orgtarget5">manually copy the LaTeX preamble into Anki</a>.
+You can import <code>demo.tex</code> into Anki as it is.  Note however that in order for the notes to compile in Anki, you still need to <a href="#orgtarget6">manually copy the LaTeX preamble into Anki</a>.
 </p>
 </div>
 </div>
@@ -362,7 +362,7 @@ You can import <code>demo.tex</code> into Anki as it is.  Note however that in o
 </div>
 
 <p>
-Again, you can import <code>TopoCards.tex</code> into Anki as it is, but you will need to <a href="#orgtarget5">import the preamble manually</a>. Alternatively, you can first import the example deck (*.apkg) into Anki: this will in particular create a note type compatible with the LaTeX file, i.e. with the correct number of fields, and with the correct LaTeX preamble.
+Again, you can import <code>TopoCards.tex</code> into Anki as it is, but you will need to <a href="#orgtarget6">import the preamble manually</a>. Alternatively, you can first import the example deck (*.apkg) into Anki: this will in particular create a note type compatible with the LaTeX file, i.e. with the correct number of fields, and with the correct LaTeX preamble.
 </p>
 </div>
 </div>
@@ -371,7 +371,7 @@ Again, you can import <code>TopoCards.tex</code> into Anki as it is, but you wil
 
 
 <div id="outline-container-orgheadline11" class="outline-2">
-<h2 id="orgheadline11"><span class="section-number-2">3</span> Syntax<a id="orgtarget7"></a></h2>
+<h2 id="orgheadline11"><span class="section-number-2">3</span> Syntax<a id="orgtarget8"></a></h2>
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-orgheadline8" class="outline-3">
 <h3 id="orgheadline8"><span class="section-number-3">3.1</span> Fields</h3>
@@ -391,7 +391,7 @@ These fields work like the previous ones, except that no additional line breaks 
 As the name indicates, these fields can be used to import plain text &#x2013; the text will not be included in <code>[latex]…[/latex]</code>, nor will any other operations be performed on it.</li>
 
 <li>Short plain text fields: <code>\xplain{ …some text… }</code><br  />
-Like the previous one. For example, this field can be used for note IDs (see the section on <a href="#orgtarget6">updating notes</a>).</li>
+Like the previous one. For example, this field can be used for note IDs (see the section on <a href="#orgtarget7">updating notes</a>).</li>
 </ul>
 
 <p>
@@ -487,10 +487,10 @@ will definitely confuse the importer, even though they do not seem to confuse La
 
 
 <div id="outline-container-orgheadline17" class="outline-2">
-<h2 id="orgheadline17"><span class="section-number-2">4</span> Porting<a id="orgtarget10"></a></h2>
+<h2 id="orgheadline17"><span class="section-number-2">4</span> Porting<a id="orgtarget11"></a></h2>
 <div class="outline-text-2" id="text-4">
 </div><div id="outline-container-orgheadline15" class="outline-3">
-<h3 id="orgheadline15"><span class="section-number-3">4.1</span> Import<a id="orgtarget4"></a></h3>
+<h3 id="orgheadline15"><span class="section-number-3">4.1</span> Import<a id="orgtarget5"></a></h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 You can import your LaTeX file using either the menu (<code>File</code> <code>&gt;</code> <code>Import...</code>) or the <code>[Import File]</code> button at the bottom of the main Anki window. A dialog window allows you to specify which deck to import the notes to, which note type to base them on, and how to map the imported fields onto the fields of that note type. (By default, the fields are kept in the order in which they appear in the LaTeX file.) Moreover, you can choose between the following three options:
@@ -509,16 +509,42 @@ This import dialog is part of core Anki, so the wording is perhaps not perfectly
 </div>
 
 <div id="outline-container-orgheadline12" class="outline-4">
-<h4 id="orgheadline12"><span class="section-number-4">4.1.1</span> Preamble<a id="orgtarget5"></a></h4>
+<h4 id="orgheadline12"><span class="section-number-4">4.1.1</span> Preamble<a id="orgtarget6"></a></h4>
 <div class="outline-text-4" id="text-4-1-1">
 <p>
 The preamble of the LaTeX file is not imported. You can configure the LaTeX preamble used by Anki by selecting (<code>Tools</code> <code>&gt;</code> <code>Manage Note Types...</code>) in the main menu, choosing the relevant note type and clicking on the <code>[Options]</code> button.
 </p>
+
+<p>
+For example, in order to turn our <a href="#orgtarget3">minimal example</a> into a minimal working example, you need to edit the <code>Header</code> and <code>Footer</code> in this dialog as follows:
+</p>
+
+<p>
+<code>Header</code>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #a020f0;">\documentclass</span>[<span style="color: #a0522d;">12pt</span>]{<span style="color: #0000ff;">article</span>}
+<span style="color: #a020f0;">\usepackage</span>[<span style="color: #a0522d;">utf8</span>]{<span style="color: #0000ff;">inputenc</span>}
+<span style="color: #a020f0;">\newenvironment</span>{<span style="color: #0000ff;">note</span>}{<span style="color: #0000ff;">\paragraph</span><span style="color: #0000ff;">{</span><span style="color: #0000ff; font-weight: bold;">NOTE:</span><span style="color: #0000ff;">}</span>}{}
+<span style="color: #a020f0;">\newenvironment</span>{<span style="color: #0000ff;">field</span>}{<span style="color: #0000ff;">\paragraph</span><span style="color: #0000ff;">{</span><span style="color: #0000ff; font-weight: bold;">field:</span><span style="color: #0000ff;">}</span>}{}
+<span style="color: #a020f0;">\begin</span>{<span style="color: #0000ff;">document</span>}
+</pre>
+</div>
+
+<p>
+<code>Footer</code>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-LaTeX"><span style="color: #a020f0;">\end</span>{<span style="color: #0000ff;">document</span>}
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-orgheadline13" class="outline-4">
-<h4 id="orgheadline13"><span class="section-number-4">4.1.2</span> Tags<a id="orgtarget3"></a></h4>
+<h4 id="orgheadline13"><span class="section-number-4">4.1.2</span> Tags<a id="orgtarget4"></a></h4>
 <div class="outline-text-4" id="text-4-1-2">
 <p>
 In the current version of LaTeX Note Importer, tags are only imported correctly if the (maximum) number of fields per note in the LaTeX file matches the number of fields of the note type selected in the import dialog.
@@ -579,7 +605,7 @@ Field 4 of file is: mapped to <code>Tags</code>
 </div>
 
 <div id="outline-container-orgheadline14" class="outline-4">
-<h4 id="orgheadline14"><span class="section-number-4">4.1.3</span> Updating notes<a id="orgtarget6"></a></h4>
+<h4 id="orgheadline14"><span class="section-number-4">4.1.3</span> Updating notes<a id="orgtarget7"></a></h4>
 <div class="outline-text-4" id="text-4-1-3">
 <p>
 Suppose you have imported some notes and started learning with them.  Suppose that, after a while, you notice some mistakes or inconsistencies that you would like to correct.  Is it possible to make these corrections in your original LaTeX file and reimport it without losing all of Anki’s scheduling information for this deck? 
@@ -598,14 +624,14 @@ when you import.
 </p>
 
 <p>
-So, what if you also want to edit the first field?  The trick is to plan ahead and reserve the first field of each note for a unique ID that will never change. The <code>\xplain-fields</code> are provided with exactly this purpose in mind.  For more details, see the <a href="#orgtarget8">step-by-step guide on how to maintain a deck for a lecture course</a>.
+So, what if you also want to edit the first field?  The trick is to plan ahead and reserve the first field of each note for a unique ID that will never change. The <code>\xplain-fields</code> are provided with exactly this purpose in mind.  For more details, see the <a href="#orgtarget9">step-by-step guide on how to maintain a deck for a lecture course</a>.
 </p>
 </div>
 </div>
 </div>
 
 <div id="outline-container-orgheadline16" class="outline-3">
-<h3 id="orgheadline16"><span class="section-number-3">4.2</span> Export<a id="orgtarget9"></a></h3>
+<h3 id="orgheadline16"><span class="section-number-3">4.2</span> Export<a id="orgtarget10"></a></h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 To export a deck into a tex file, go to <code>File</code> <code>&gt;</code> <code>Export...</code> in the main menu and select <code>[Notes in LaTeX (*.tex)]</code> as export format. 
@@ -616,7 +642,7 @@ To export a deck into a tex file, go to <code>File</code> <code>&gt;</code> <cod
 
 
 <div id="outline-container-orgheadline21" class="outline-2">
-<h2 id="orgheadline21"><span class="section-number-2">5</span> Maintaining a deck for a lecture course<a id="orgtarget8"></a></h2>
+<h2 id="orgheadline21"><span class="section-number-2">5</span> Maintaining a deck for a lecture course<a id="orgtarget9"></a></h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The following is a step-by-step guide explaining how to create and maintain an Anki deck for a maths lecture course as you go along.  The idea is to create and import cards each week as the course progresses, but in such a way that you can still go back and make changes later on. 
@@ -650,7 +676,7 @@ If you changed the LaTeX preamble in Step 2, then copy the preamble of your LaTe
 <h3 id="orgheadline19"><span class="section-number-3">5.2</span> Weekly workflow</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
-<a href="#orgtarget7">For the general syntax to use in the LaTeX file, see above</a>.  Here, we just explain the weekly workflow.
+<a href="#orgtarget8">For the general syntax to use in the LaTeX file, see above</a>.  Here, we just explain the weekly workflow.
 </p>
 
 <ol class="org-ol">
@@ -780,7 +806,7 @@ Once the add-on is installed, you can find the code in the folder <code>…/​A
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Marcus Zibrowius</p>
-<p class="date">Created: 2018-03-23 Fr 21:29</p>
+<p class="date">Created: 2018-11-26 Mon 17:31</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

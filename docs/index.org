@@ -32,7 +32,7 @@
   and click =[OK]=. Then restart Anki.
 
 * Examples
-** Minimal example
+** Minimal example<<minexample>>
    Let's have a look at a fairly minimal example file that LaTeX Note Importer can deal with:
    #+BEGIN_SRC LaTeX
     \begin{document}
@@ -42,9 +42,9 @@
        \end{field}
        \begin{field}
            Yes and no. The equation
-           \begin{equation*}
+           \[
                 1+1 = 0
-           \end{equation*}
+           \]
            holds only in characteristic two.
        \end{field}
     \end{note}
@@ -75,9 +75,9 @@
        \end{field}
        \begin{field}
            Yes and no. The equation
-           \begin{equation*}
+           \[
                       1+1 = 0
-           \end{equation*}
+           \]
            holds only in characteristic two.
        \end{field}
     \end{note}
@@ -194,6 +194,22 @@
 
 *** Preamble<<import-preamble>>
     The preamble of the LaTeX file is not imported. You can configure the LaTeX preamble used by Anki by selecting (=Tools= =>= =Manage Note Types...=) in the main menu, choosing the relevant note type and clicking on the =[Options]= button.
+
+    For example, in order to turn our [[minexample][minimal example]] into a minimal working example, you need to edit the =Header= and =Footer= in this dialog as follows:
+    
+    =Header=
+    #+BEGIN_SRC LaTeX
+    \documentclass[12pt]{article}
+    \usepackage[utf8]{inputenc}
+    \newenvironment{note}{\paragraph{NOTE:}}{}
+    \newenvironment{field}{\paragraph{field:}}{}
+    \begin{document}
+    #+END_SRC
+
+    =Footer=
+    #+BEGIN_SRC LaTeX
+    \end{document}
+    #+END_SRC
 
 *** Tags<<import-tags>>
     In the current version of LaTeX Note Importer, tags are only imported correctly if the (maximum) number of fields per note in the LaTeX file matches the number of fields of the note type selected in the import dialog.
