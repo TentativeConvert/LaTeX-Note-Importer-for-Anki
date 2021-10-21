@@ -310,7 +310,17 @@ class LatexImporter(NoteImporter):
         string = self.textToHtml(string)
         note.fields.append(string)
 
-importing.Importers = importing.Importers + ((_("Latex Notes (*.tex)"), LatexImporter),)
+        
+### This line worked up to version 2.1.44:
+#        importing.Importers = importing.Importers + ((_("Latex Notes (*.tex)"), LatexImporter),)
+### This is the replacement suggested by Kelciour:
+def myImporters(col, _old):
+    ret = _old(col)
+    ret += ((_("Latex Notes (*.tex)"), LatexImporter),)
+    return ret
+
+importing.importers = wrap(importing.importers, myImporters, "around")
+###
 
 # note:
 # The command
