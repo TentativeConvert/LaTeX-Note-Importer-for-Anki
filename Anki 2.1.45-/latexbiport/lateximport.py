@@ -66,7 +66,7 @@ class LatexImporter(NoteImporter):
     def openFile(self):
         # modified from TextImporter (csvfile.py)
         self.dialect = None
-        self.fileobj = open(self.file, "rbU")
+        self.fileobj = open(self.file, "rb")
         self.processFile(str(self.fileobj.read(), "utf-8"))
 
     def foreignNotes(self):
